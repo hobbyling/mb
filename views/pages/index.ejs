@@ -1,32 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <% include ../partials/head %>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Firebase Realtime Database</title>
+    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyD_Esg7BYisTGhA4Ws7Mu9ker8xvb5HQA0",
+        authDomain: "mboard-2bd47.firebaseapp.com",
+        databaseURL: "https://mboard-2bd47.firebaseio.com",
+        storageBucket: "mboard-2bd47.appspot.com",
+        messagingSenderId: "359919894758"
+      };
+        firebase.initializeApp(config);
+        // 建立 DB
+        var database = firebase.database();  
+        
+        //讀取資料
+        $(document).ready(function(){
+            function display_msg(data_val){
+                $('#show').text(data_val);   
+            } 
+            
+           firebase.database().ref('/message/').on('value', function(snapshot) {
+                console.log(snapshot.val());
+                display_msg(snapshot.val());
+            });          
+        });
+        
+
+        //將訊息存入database
+        function push(msg) {
+          var key = firebase.database().ref('message/').push({
+            msg: msg,
+          }).key;
+        }        
+        
+        $(document).ready(function(){ 
+            $("#push_test").click(function(){
+                var msg = $('#push_msg').val();
+                push(msg);
+            });    
+        }); 
+    </script>
+    <style type="text/css">
+        body {
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+            color: #384047;
+        }
+        header{
+            text-align: center;
+        }
+        textarea{
+            width: 300px;
+            height: 50px;
+        }
+        
+    </style>
 </head>
-<body class="container">
-
+<body>
     <header>
-        <% include ../partials/header %>
+        <h1>Message Board</h1>
     </header>
+    
+    <textarea type="text" id="push_msg" placeholder="訊息"/></textarea></br>
+    <button id="push_test">Send</button></br></br>
 
-    <main>
-        <div class="jumbotron">
-            <h1>This is great</h1>
-            <p>Welcome to templating using EJS</p>
-            <h2>Variable</h2>
-            <p><%= tagline %></p>
-            <h2>Loop</h2>
-                <ul>
-                    <% drinks.forEach(function(drink) { %>
-                        <li><%= drink.name %> - <%= drink.number %></li>
-                    <% }); %>
-                </ul>
-        </div>
-    </main>
 
+    <label id="show"></label><br>
+    <div id='messagesDiv'></div>
+    
     <footer>
         <% include ../partials/footer %>
     </footer>
-    
-</body>
+  </body>
 </html>
