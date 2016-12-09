@@ -20,14 +20,24 @@
         var database = firebase.database();  
         
         //讀取資料
-        function display_msg(data_val){
-            $('#show').text(data_val);   
-        } 
+        function display_msg(name, msg){
+            //$('#messagesDiv').empty();
+            //$('#show').text(name);
+            //$('<div/>').text(name).prepend($('<em/>').text(msg+': ')).appendTo($('#messagesDiv'));  
+            $('<div/>').text(name).prepend($('<em/>').text(msg)).appendTo($('#messagesDiv'));  
+        }
 
-        firebase.database().ref('/message/').orderByChild("msg").on('value', function(snapshot) {
-            console.log(snapshot.val());
-            display_msg(snapshot.val());
+        firebase.database().ref('/message/').on('value', function(snapshot) {
+            var message = snapshot.val();
+            console.log(message);
+            //display_msg(message);
+            $.each(snapshot.val(),function(k,v){
+                console.log(v.msg);
+                console.log(v.name);
+                display_msg(v.name, v.msg)
+            })
         });
+
          
 
         //將訊息存入database
@@ -76,9 +86,8 @@
     <textarea type="text" id="push_msg" placeholder="訊息"/></textarea></br>
     <button id="push_test">Send</button></br></br>
 
-
+    <div id='messagesDiv'></div>
     <label id="show"></label><br>
-    
     <footer>
         <% include ../partials/footer %>
     </footer>

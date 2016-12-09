@@ -14,8 +14,6 @@ var config = {
 //初始化firebase
 firebase.initializeApp(config);
 
-
-
 //set the view engine to ejs 
 //how we send a view to the user by using res.render(), res.render() will look in a views folder for the view, so we only have to define "page/index"
 app.set('view engine', 'ejs');  
@@ -27,14 +25,13 @@ app.set('port', (process.env.PORT || 3000));
  app.get('/', function(req, res) {  
  	//取得的資料程式
 	var db = firebase.database(); 
-	var ref = db.ref("/");
  	var drinks = [
         { name: 'Hobby Lee', number: 'M1043303' },
         { name: 'JingTing', number: 'A1023306' },
     ];
     
     res.render('pages/index', {
-        drinks: drinks,
+        
     });
  });
 
