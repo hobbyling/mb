@@ -59,6 +59,7 @@
 
         //偵測delete鈕
         $(document).on("click",".delete",function(){
+            $('#messagesli').empty();
             var msgid = $(this).val();
             $(this).parent().remove();
             //console.log(msgid);
