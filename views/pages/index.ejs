@@ -42,7 +42,7 @@
             
             //$('<div/>').text(msg).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
             //$('<div/>').append(name+": "+msg).appendTo($('#messagesDiv'));
-            $('<li/>').append(name+": "+msg+" <button>delete</button>").appendTo($('#messagesli'));
+            $('<li/>').append("Name: "+name+"</br> Message: "+msg+" </br><button>delete</button><hr>").appendTo($('#messagesli'));
             //$('.name').append(name); 
             //$('.msg').append(msg); 
             //$('<li/>').appendTo($('#messagesli')); 
@@ -81,12 +81,18 @@
             font-size: 18px;
         }
         ul{
+            margin: 0 auto;
+            width: 400px;
             list-style-type:none;
         }
         li{
             margin-bottom: 5px;
+            text-align: left;
         }
-        
+        hr{
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
