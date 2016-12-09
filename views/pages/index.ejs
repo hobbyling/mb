@@ -19,12 +19,32 @@
         // 建立 DB
         var database = firebase.database();  
         
+        
+
+        //將訊息存入database
+        function push(msg, name) {
+          var key = firebase.database().ref('message/').push({
+            msg: msg,
+            name: name,
+          }).key;
+
+        }        
+        
+        $(document).ready(function(){ 
+            $("#push_test").click(function(){
+                $('#messagesDiv').empty();
+                var name = $('#push_name').val();
+                var msg = $('#push_msg').val();
+                push(msg, name);
+
+            });    
+        }); 
+
         //讀取資料
         function display_msg(name, msg){
-            //$('#messagesDiv').empty();
-            //$('#show').text(name);
-            //$('<div/>').text(name).prepend($('<em/>').text(msg+': ')).appendTo($('#messagesDiv'));  
-            $('<div/>').text(msg).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));  
+            
+            //$('<div/>').text(msg).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+            $('<div/>').append(name+": "+msg).appendTo($('#messagesDiv'));    
         }
 
         firebase.database().ref('/message/').on('value', function(snapshot) {
@@ -37,24 +57,6 @@
                 display_msg(v.name, v.msg)
             })
         });
-
-         
-
-        //將訊息存入database
-        function push(msg, name) {
-          var key = firebase.database().ref('message/').push({
-            msg: msg,
-            name: name,
-          }).key;
-        }        
-        
-        $(document).ready(function(){ 
-            $("#push_test").click(function(){
-                var name = $('#push_name').val();
-                var msg = $('#push_msg').val();
-                push(msg, name);
-            });    
-        }); 
     </script>
     <style type="text/css">
         body {
@@ -87,7 +89,8 @@
     <button id="push_test">Send</button></br></br>
 
     <div id='messagesDiv'></div>
-    <label id="show"></label><br>
+
+
     <footer>
         <% include ../partials/footer %>
     </footer>
