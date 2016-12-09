@@ -39,7 +39,7 @@
 
     firebase.database().ref('/message/').on('value', function(snapshot) {
         var message = snapshot.val();
-
+         $('#messagesli').empty();
         $.each(snapshot.val(),function(k,v){
             //console.log(k);
  
@@ -59,7 +59,7 @@
 
         //偵測delete鈕
         $(document).on("click",".delete",function(){
-            $('#messagesli').empty();
+           
             var msgid = $(this).val();
             $(this).parent().remove();
             //console.log(msgid);
