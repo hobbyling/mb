@@ -20,29 +20,29 @@
         var database = firebase.database();  
         
         //讀取資料
-        $(document).ready(function(){
-            function display_msg(data_val){
-                $('#show').text(data_val);   
-            } 
-            
-           firebase.database().ref('/message/').on('value', function(snapshot) {
-                console.log(snapshot.val());
-                display_msg(snapshot.val());
-            });          
+        function display_msg(data_val){
+            $('#show').text(data_val);   
+        } 
+
+        firebase.database().ref('/message/').orderByChild("msg").on('value', function(snapshot) {
+            console.log(snapshot.val());
+            display_msg(snapshot.val());
         });
-        
+         
 
         //將訊息存入database
-        function push(msg) {
+        function push(msg, name) {
           var key = firebase.database().ref('message/').push({
             msg: msg,
+            name: name,
           }).key;
         }        
         
         $(document).ready(function(){ 
             $("#push_test").click(function(){
+                var name = $('#push_name').val();
                 var msg = $('#push_msg').val();
-                push(msg);
+                push(msg, name);
             });    
         }); 
     </script>
@@ -55,9 +55,15 @@
         header{
             text-align: center;
         }
+        input{
+            width: 300px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
         textarea{
             width: 300px;
             height: 50px;
+            font-size: 18px;
         }
         
     </style>
@@ -66,13 +72,12 @@
     <header>
         <h1>Message Board</h1>
     </header>
-    
+    <input type="text" id="push_name" placeholder="名字"></br>
     <textarea type="text" id="push_msg" placeholder="訊息"/></textarea></br>
     <button id="push_test">Send</button></br></br>
 
 
     <label id="show"></label><br>
-    <div id='messagesDiv'></div>
     
     <footer>
         <% include ../partials/footer %>
