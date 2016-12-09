@@ -38,26 +38,24 @@
         }); 
 
         //讀取資料
-        function display_msg(name, msg){
+        function display_msg(id, name, msg){
             
             //$('<div/>').text(msg).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
             //$('<div/>').append(name+": "+msg).appendTo($('#messagesDiv'));
-            $('<li/>').append("Name: "+name+"</br> Message: "+msg+" </br><button>delete</button><hr>").appendTo($('#messagesli'));
-            //$('.name').append(name); 
-            //$('.msg').append(msg); 
-            //$('<li/>').appendTo($('#messagesli')); 
+            $('<li/>').append("Name: "+name+"</br> Message: "+msg+" </br><button id='"+id+"'>delete</button><hr>").appendTo($('#messagesli'));
              
         }
 
         firebase.database().ref('/message/').on('value', function(snapshot) {
             var message = snapshot.val();
-            console.log(message);
-            //display_msg(message);
+            var key = snapshot.key;
+            //console.log(key);
+
             $.each(snapshot.val(),function(k,v){
-                console.log(v.key);
-                console.log(v.msg);
-                console.log(v.name);
-                display_msg(v.name, v.msg)
+                //console.log(k);
+                //console.log(v.msg);
+                //console.log(v.name);
+                display_msg(k,v.name, v.msg)
             })
         });
     </script>
