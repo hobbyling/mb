@@ -29,13 +29,12 @@
 
     //刪除資料
     function removeUser(msgid) {
-        firebase.database().ref('message/' + msgid).remove();  
+        firebase.database().ref().child('/message/' + msgid).remove();  
     } 
 
     //讀取資料
     function display_msg(key, name, msg){
-        var del="delete";
-        $('<li/>').append("Name: "+name+"</br> Message: "+msg+" </br><button id='"+del+"' class='"+del+"' value='"+key+"'>delete</button><hr>").appendTo($('#messagesli'));
+        $('<li/>').append("Name: "+name+"</br> Message: "+msg+" </br><button id='delete' class='delete' value='"+key+"'>delete</button><hr>").appendTo($('#messagesli'));
     }
 
     firebase.database().ref('/message/').on('value', function(snapshot) {
@@ -43,6 +42,7 @@
 
         $.each(snapshot.val(),function(k,v){
             //console.log(k);
+ 
             display_msg(k,v.name, v.msg);
         });
     });
@@ -56,12 +56,14 @@
             push(msg, name);
         });
 
+
         //偵測delete鈕
-        $("#delete").click(function(){
-            var msgid = $("#delete").val();
+        $(document).on("click",".delete",function(){
+            var msgid = $(this).val();
+            $(this).parent().remove();
             //console.log(msgid);
-            alert("hello");
-            console.log("hello");
+
+
             removeUser(msgid);
         });
     }); 
