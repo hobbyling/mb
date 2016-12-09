@@ -24,7 +24,7 @@
             //$('#messagesDiv').empty();
             //$('#show').text(name);
             //$('<div/>').text(name).prepend($('<em/>').text(msg+': ')).appendTo($('#messagesDiv'));  
-            $('<div/>').text(name).prepend($('<em/>').text(msg)).appendTo($('#messagesDiv'));  
+            $('<div/>').text(msg).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));  
         }
 
         firebase.database().ref('/message/').on('value', function(snapshot) {
