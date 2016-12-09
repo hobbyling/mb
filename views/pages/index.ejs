@@ -38,25 +38,38 @@
         }); 
 
         //讀取資料
-        function display_msg(id, name, msg){
-            
-            //$('<div/>').text(msg).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+        function display_msg(key, name, msg){
+            var del="delete";
             //$('<div/>').append(name+": "+msg).appendTo($('#messagesDiv'));
-            $('<li/>').append("Name: "+name+"</br> Message: "+msg+" </br><button id='"+id+"'>delete</button><hr>").appendTo($('#messagesli'));
-             
+            $('<li/>').append("Name: "+name+"</br> Message: "+msg+" </br><button id='"+del+"' class='"+del+"' value='"+key+"'>delete</button><hr>").appendTo($('#messagesli'));
         }
 
         firebase.database().ref('/message/').on('value', function(snapshot) {
             var message = snapshot.val();
-            var key = snapshot.key;
-            //console.log(key);
 
             $.each(snapshot.val(),function(k,v){
                 //console.log(k);
-                //console.log(v.msg);
-                //console.log(v.name);
-                display_msg(k,v.name, v.msg)
-            })
+                display_msg(k,v.name, v.msg);
+            });
+        });
+        //刪除資料
+        function removeUser(msgid) {
+          // 法一
+          firebase.database().ref('message/' + msgid).remove();   
+          // 法二
+          /*
+          firebase.database().ref('users/' + userId).set({
+            username: null,
+          });*/ 
+        }  
+        $(document).ready(function(){ 
+            $(".delete").click(function(){
+                //var msgid = document.getElementById("delete").value;
+                //console.log(msgid);
+                alert(hello);
+                console.log("hello");
+                //removeUser(msgid);
+            });
         });
     </script>
     <style type="text/css">
